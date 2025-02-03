@@ -124,7 +124,7 @@
 #define USE_SDCARD_SDIO
 #endif
 
-//#define USE_SPI
+#define USE_SPI
 //#define SPI_FULL_RECONFIGURABILITY
 //#define USE_SPI_DMA_ENABLE_LATE
 

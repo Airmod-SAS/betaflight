@@ -362,7 +362,8 @@ void configClearFlags(void)
 
 configStreamerResult_e configWriteWord(uintptr_t address, config_streamer_buffer_type_t *buffer)
 {
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose H5 is similar to H7
     if (address % FLASH_PAGE_SIZE == 0) {
         FLASH_EraseInitTypeDef EraseInitStruct = {
             .TypeErase     = FLASH_TYPEERASE_SECTORS,

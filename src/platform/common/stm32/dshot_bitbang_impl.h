@@ -95,7 +95,8 @@
 
 #ifdef USE_DMA_REGISTER_CACHE
 typedef struct dmaRegCache_s {
-#if defined(STM32F4) || defined(STM32F7) || defined(STM32H7)
+#if defined(STM32F4) || defined(STM32F7) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose H5 is similar to H7, but as define in the spec, there are probably different.
     uint32_t CR;
     uint32_t FCR;
     uint32_t NDTR;

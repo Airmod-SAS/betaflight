@@ -205,6 +205,10 @@ uint32_t spiCalculateClock(uint16_t spiClkDivisor)
     uint32_t spiClk = SystemCoreClock / 2;
 #elif defined(STM32H7)
     uint32_t spiClk = 100000000;
+#elif defined(STM32H5)
+/// @todo [Project-H5] source: https://www.st.com/resource/en/datasheet/stm32h562ag.pdf | version: DS14258 Rev 5 | pages 223
+// there is multiple values, based on the master reiceiver mode or transmiter mode
+    uint32_t spiClk = 100000000; // for now, I use H7 value
 #elif defined(AT32F4)
     uint32_t spiClk = system_core_clock / 2;
 
@@ -266,7 +270,8 @@ void spiInitBusDMA(void)
                     continue;
                 }
                 bus->dmaTx = dmaGetDescriptorByIdentifier(dmaTxIdentifier);
-#if defined(STM32F4) || defined(STM32F7) || defined(STM32G4) || defined(STM32H7) || defined(APM32F4)
+#if defined(STM32F4) || defined(STM32F7) || defined(STM32G4) || defined(STM32H7) || defined(APM32F4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
                 bus->dmaTx->stream = DMA_DEVICE_INDEX(dmaTxIdentifier);
                 bus->dmaTx->channel = dmaTxChannelSpec->channel;
 #endif

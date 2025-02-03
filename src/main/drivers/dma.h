@@ -61,7 +61,8 @@ typedef void (*dmaCallbackHandlerFuncPtr)(struct dmaChannelDescriptor_s *channel
 typedef struct dmaChannelDescriptor_s {
     DMA_TypeDef*                dma;
     dmaResource_t               *ref;
-#if defined(STM32F4) || defined(STM32F7) || defined(STM32G4) || defined(STM32H7) || defined(APM32F4)
+#if defined(STM32F4) || defined(STM32F7) || defined(STM32G4) || defined(STM32H7) || defined(APM32F4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     uint8_t                     stream;
 #endif
     uint32_t                    channel;

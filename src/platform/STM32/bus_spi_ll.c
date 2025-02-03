@@ -466,7 +466,8 @@ void spiInternalStopDMA (const extDevice_t *dev)
     dmaChannelDescriptor_t *dmaRx = bus->dmaRx;
     SPI_TypeDef *instance = bus->busType_u.spi.instance;
 
-#if !defined(STM32G4) && !defined(STM32H7)
+#if !defined(STM32G4) && !defined(STM32H7) && !defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     if (dmaRx) {
 #endif
         // Disable the DMA engine and SPI interface
@@ -487,7 +488,8 @@ void spiInternalStopDMA (const extDevice_t *dev)
         LL_SPI_ClearFlag_TXTF(dev->bus->busType_u.spi.instance);
         LL_SPI_Disable(dev->bus->busType_u.spi.instance);
 #endif
-#if !defined(STM32G4) && !defined(STM32H7)
+#if !defined(STM32G4) && !defined(STM32H7) && !defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     } else {
         SPI_TypeDef *instance = bus->busType_u.spi.instance;
 

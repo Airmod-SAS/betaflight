@@ -24,6 +24,14 @@
 
 #define USBD_PRODUCT_STRING     "Betaflight STM32H563"
 
+#ifndef STM32H563
+#define STM32H563
+#endif
+
+#ifndef STM32H563xx
+#define STM32H563xx
+#endif
+
 #undef USE_PWM
 #undef USE_PWM_OUTPUT
 #undef USE_DSHOT
@@ -125,6 +133,7 @@
 #endif
 
 #define USE_SPI
+#define USE_DMA
 //#define SPI_FULL_RECONFIGURABILITY
 //#define USE_SPI_DMA_ENABLE_LATE
 

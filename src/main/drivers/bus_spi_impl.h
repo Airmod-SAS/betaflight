@@ -53,7 +53,8 @@ typedef struct SPIDevice_s {
     ioTag_t sck;
     ioTag_t miso;
     ioTag_t mosi;
-#if defined(STM32F7) || defined(STM32H7) || defined(STM32G4) || defined(AT32F4) || defined(APM32F4)
+#if defined(STM32F7) || defined(STM32H7) || defined(STM32G4) || defined(AT32F4) || defined(APM32F4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     uint8_t sckAF;
     uint8_t misoAF;
     uint8_t mosiAF;

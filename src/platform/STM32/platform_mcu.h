@@ -48,7 +48,6 @@
 #elif defined(STM32H563xx)
 /// @todo [Project-H5] need to check if it's all right
 #include "stm32h5xx.h"
-#include "stm32h563xx.h"
 #include "stm32h5xx_hal.h"
 #include "system_stm32h5xx.h"
 

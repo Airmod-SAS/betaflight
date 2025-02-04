@@ -472,7 +472,8 @@
 #define DEF_TIM_AF__PI6__TCH_TIM8_CH2     D(3, 8)
 #define DEF_TIM_AF__PI7__TCH_TIM8_CH3     D(3, 8)
 
-#elif defined(STM32H7)
+#elif defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 #define DEF_TIM(tim, chan, pin, out, dmaopt, upopt) {                   \
     tim,                                                                \
     TIMER_GET_IO_TAG(pin),                                              \
@@ -1145,7 +1146,8 @@
 
 #endif //STM32F411xE
 
-#elif defined(STM32H7)
+#elif defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 
 #define FULL_TIMER_CHANNEL_COUNT 91
 #define USED_TIMERS ( TIM_N(1) | TIM_N(2) | TIM_N(3) | TIM_N(4) | TIM_N(5) | TIM_N(6) | TIM_N(7) | TIM_N(8) | TIM_N(12) | TIM_N(13) | TIM_N(14) | TIM_N(15) | TIM_N(16) | TIM_N(17) )

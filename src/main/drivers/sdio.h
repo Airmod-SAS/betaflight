@@ -29,7 +29,8 @@ typedef enum {
 
 #define SDIODEV_COUNT 2
 
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 void sdioPinConfigure(void);
 void SDIO_GPIO_Init(void);
 #endif

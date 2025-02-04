@@ -71,7 +71,8 @@ void dbgPinHi(int index)
 
     dbgPinState_t *dbgPinState = &dbgPinStates[index];
     if (dbgPinState->gpio) {
-#if defined(STM32F7) || defined(STM32H7)
+#if defined(STM32F7) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
         dbgPinState->gpio->BSRR = dbgPinState->setBSRR;
 #else
         dbgPinState->gpio->BSRRL = dbgPinState->setBSRR;
@@ -92,7 +93,8 @@ void dbgPinLo(int index)
     dbgPinState_t *dbgPinState = &dbgPinStates[index];
 
     if (dbgPinState->gpio) {
-#if defined(STM32F7) || defined(STM32H7)
+#if defined(STM32F7) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
         dbgPinState->gpio->BSRR = dbgPinState->resetBSRR;
 #else
         dbgPinState->gpio->BSRRL = dbgPinState->resetBSRR;

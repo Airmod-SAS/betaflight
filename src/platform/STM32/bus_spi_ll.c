@@ -91,7 +91,8 @@ static uint32_t spiDivisorToBRbits(const SPI_TypeDef *instance, uint16_t divisor
 
     divisor = constrain(divisor, 2, 256);
 
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     const uint32_t baudRatePrescaler[8] = {
         LL_SPI_BAUDRATEPRESCALER_DIV2,
         LL_SPI_BAUDRATEPRESCALER_DIV4,
@@ -133,7 +134,8 @@ void spiInitDevice(SPIDevice device)
     LL_SPI_Disable(spi->dev);
     LL_SPI_DeInit(spi->dev);
 
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     // Prevent glitching when SPI is disabled
     LL_SPI_EnableGPIOControl(spi->dev);
 
@@ -152,14 +154,16 @@ void spiInternalResetDescriptors(busDevice_t *bus)
     LL_DMA_InitTypeDef *dmaInitTx = bus->dmaInitTx;
 
     LL_DMA_StructInit(dmaInitTx);
-#if defined(STM32G4) || defined(STM32H7)
+#if defined(STM32G4) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     dmaInitTx->PeriphRequest = bus->dmaTx->channel;
 #else
     dmaInitTx->Channel = bus->dmaTx->channel;
 #endif
     dmaInitTx->Mode = LL_DMA_MODE_NORMAL;
     dmaInitTx->Direction = LL_DMA_DIRECTION_MEMORY_TO_PERIPH;
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     dmaInitTx->PeriphOrM2MSrcAddress = (uint32_t)&bus->busType_u.spi.instance->TXDR;
 #else
     dmaInitTx->PeriphOrM2MSrcAddress = (uint32_t)&bus->busType_u.spi.instance->DR;
@@ -173,14 +177,16 @@ void spiInternalResetDescriptors(busDevice_t *bus)
         LL_DMA_InitTypeDef *dmaInitRx = bus->dmaInitRx;
 
         LL_DMA_StructInit(dmaInitRx);
-#if defined(STM32G4) || defined(STM32H7)
+#if defined(STM32G4) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
         dmaInitRx->PeriphRequest = bus->dmaRx->channel;
 #else
         dmaInitRx->Channel = bus->dmaRx->channel;
 #endif
         dmaInitRx->Mode = LL_DMA_MODE_NORMAL;
         dmaInitRx->Direction = LL_DMA_DIRECTION_PERIPH_TO_MEMORY;
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
         dmaInitRx->PeriphOrM2MSrcAddress = (uint32_t)&bus->busType_u.spi.instance->RXDR;
 #else
         dmaInitRx->PeriphOrM2MSrcAddress = (uint32_t)&bus->busType_u.spi.instance->DR;
@@ -208,7 +214,8 @@ void spiInternalResetStream(dmaChannelDescriptor_t *descriptor)
 
 FAST_CODE static bool spiInternalReadWriteBufPolled(SPI_TypeDef *instance, const uint8_t *txData, uint8_t *rxData, int len)
 {
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     LL_SPI_SetTransferSize(instance, len);
     LL_SPI_Enable(instance);
     LL_SPI_StartMasterTransfer(instance);
@@ -312,7 +319,8 @@ void spiInternalInitStream(const extDevice_t *dev, bool preInit)
     }
     dmaInitTx->NbData = len;
 
-#if !defined(STM32G4) && !defined(STM32H7)
+#if !defined(STM32G4) && !defined(STM32H7) && !defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     if (dev->bus->dmaRx) {
 #endif
         uint8_t *rxData = segment->u.buffers.rxData;
@@ -343,7 +351,8 @@ void spiInternalInitStream(const extDevice_t *dev, bool preInit)
         dmaInitRx->MemoryOrM2MDstIncMode = LL_DMA_MEMORY_NOINCREMENT;
     }
     dmaInitRx->NbData = len;
-#if !defined(STM32G4) && !defined(STM32H7)
+#if !defined(STM32G4) && !defined(STM32H7) && !defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     }
 #endif
 }
@@ -355,7 +364,8 @@ void spiInternalStartDMA(const extDevice_t *dev)
     dmaChannelDescriptor_t *dmaTx = bus->dmaTx;
     dmaChannelDescriptor_t *dmaRx = bus->dmaRx;
 
-#if !defined(STM32G4) && !defined(STM32H7)
+#if !defined(STM32G4) && !defined(STM32H7) && !defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     if (dmaRx) {
 #endif
         // Use the correct callback argument
@@ -409,7 +419,8 @@ void spiInternalStartDMA(const extDevice_t *dev)
          */
 
         // Enable the SPI DMA Tx & Rx requests
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
         LL_SPI_SetTransferSize(dev->bus->busType_u.spi.instance, dev->bus->curSegment->len);
         LL_DMA_EnableStream(dmaTx->dma, dmaTx->stream);
         LL_DMA_EnableStream(dmaRx->dma, dmaRx->stream);
@@ -423,7 +434,8 @@ void spiInternalStartDMA(const extDevice_t *dev)
 
         SET_BIT(dev->bus->busType_u.spi.instance->CR2, SPI_CR2_TXDMAEN | SPI_CR2_RXDMAEN);
 #endif
-#if !defined(STM32G4) && !defined(STM32H7)
+#if !defined(STM32G4) && !defined(STM32H7) && !defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     } else {
         DMA_Stream_TypeDef *streamRegsTx = (DMA_Stream_TypeDef *)dmaTx->ref;
 
@@ -484,7 +496,8 @@ void spiInternalStopDMA (const extDevice_t *dev)
 
         LL_SPI_DisableDMAReq_TX(instance);
         LL_SPI_DisableDMAReq_RX(instance);
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
         LL_SPI_ClearFlag_TXTF(dev->bus->busType_u.spi.instance);
         LL_SPI_Disable(dev->bus->busType_u.spi.instance);
 #endif
@@ -508,7 +521,8 @@ void spiInternalStopDMA (const extDevice_t *dev)
 
         LL_SPI_DisableDMAReq_TX(instance);
 #endif
-#if !defined(STM32G4) && !defined(STM32H7)
+#if !defined(STM32G4) && !defined(STM32H7) && !defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     }
 #endif
 }
@@ -526,7 +540,8 @@ FAST_CODE void spiSequenceStart(const extDevice_t *dev)
     bus->initSegment = true;
 
     // Switch bus speed
-#if !defined(STM32H7)
+#if !defined(STM32H7) && !defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     LL_SPI_Disable(instance);
 #endif
 
@@ -551,7 +566,8 @@ FAST_CODE void spiSequenceStart(const extDevice_t *dev)
         bus->busType_u.spi.leadingEdge = dev->busType_u.spi.leadingEdge;
     }
 
-#if !defined(STM32H7)
+#if !defined(STM32H7) && !defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     LL_SPI_Enable(instance);
 #endif
 

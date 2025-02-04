@@ -126,7 +126,8 @@ void bbTimerChannelInit(bbPort_t *bbPort)
 #ifdef USE_DMA_REGISTER_CACHE
 static void bbLoadDMARegs(dmaResource_t *dmaResource, dmaRegCache_t *dmaRegCache)
 {
-#if defined(STM32F7) || defined(STM32H7)
+#if defined(STM32F7) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     ((DMA_ARCH_TYPE *)dmaResource)->CR = dmaRegCache->CR;
     ((DMA_ARCH_TYPE *)dmaResource)->FCR = dmaRegCache->FCR;
     ((DMA_ARCH_TYPE *)dmaResource)->NDTR = dmaRegCache->NDTR;
@@ -144,7 +145,8 @@ static void bbLoadDMARegs(dmaResource_t *dmaResource, dmaRegCache_t *dmaRegCache
 
 static void bbSaveDMARegs(dmaResource_t *dmaResource, dmaRegCache_t *dmaRegCache)
 {
-#if defined(STM32F7) || defined(STM32H7)
+#if defined(STM32F7) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     dmaRegCache->CR = ((DMA_ARCH_TYPE *)dmaResource)->CR;
     dmaRegCache->FCR = ((DMA_ARCH_TYPE *)dmaResource)->FCR;
     dmaRegCache->NDTR = ((DMA_ARCH_TYPE *)dmaResource)->NDTR;
@@ -241,7 +243,8 @@ void bbDMAPreconfigure(bbPort_t *bbPort, uint8_t direction)
     LL_DMA_StructInit(dmainit);
 
     dmainit->Mode = LL_DMA_MODE_NORMAL;
-#if defined(STM32G4) || defined(STM32H7)
+#if defined(STM32G4) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     dmainit->PeriphRequest = bbPort->dmaChannel;
 #else
     dmainit->Channel = bbPort->dmaChannel;

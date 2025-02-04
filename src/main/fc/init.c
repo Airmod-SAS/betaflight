@@ -574,7 +574,8 @@ void init(void)
         initFlags |= QUAD_OCTO_SPI_BUSSES_INIT_ATTEMPTED;
     }
 
-#if defined(USE_SDCARD_SDIO) && !defined(CONFIG_IN_SDCARD) && defined(STM32H7)
+#if defined(USE_SDCARD_SDIO) && !defined(CONFIG_IN_SDCARD) && (defined(STM32H7)  || defined(STM32H5))
+/// @todo [Project-H5] suppose to be like H7
     sdioPinConfigure();
     SDIO_GPIO_Init();
 #endif

@@ -185,6 +185,7 @@ const i2cHardware_t i2cHardware[I2CDEV_COUNT] = {
         .er_irq = I2C4_ER_IRQn,
     },
 #endif
+/// @todo [Project-H5] check for I2C
 #endif
 };
 
@@ -218,7 +219,8 @@ void i2cInit(I2CDevice device)
 #if defined(STM32F7)
     IOConfigGPIOAF(scl, pDev->pullUp ? IOCFG_I2C_PU : IOCFG_I2C, GPIO_AF4_I2C);
     IOConfigGPIOAF(sda, pDev->pullUp ? IOCFG_I2C_PU : IOCFG_I2C, GPIO_AF4_I2C);
-#elif defined(STM32H7) || defined(STM32G4)
+#elif defined(STM32H7) || defined(STM32G4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     IOConfigGPIOAF(scl, pDev->pullUp ? IOCFG_I2C_PU : IOCFG_I2C, pDev->sclAF);
     IOConfigGPIOAF(sda, pDev->pullUp ? IOCFG_I2C_PU : IOCFG_I2C, pDev->sdaAF);
 #else
@@ -244,7 +246,8 @@ void i2cInit(I2CDevice device)
     // G4 Clock source configured in startup/stm32/system_stm32g4xx.c as:
     //   I2C1234 : PCLK1
     i2cPclk = HAL_RCC_GetPCLK1Freq();
-#elif defined(STM32H7)
+#elif defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     // Clock sources configured in startup/stm32/system_stm32h7xx.c as:
     //   I2C123 : D2PCLK1 (rcc_pclk1 for APB1)
     //   I2C4   : D3PCLK1 (rcc_pclk4 for APB4)

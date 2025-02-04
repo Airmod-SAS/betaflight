@@ -76,6 +76,10 @@
 #elif defined(STM32G4)
 #define BB_OUTPUT_BUFFER_ATTRIBUTE FAST_DATA_ZERO_INIT
 #define BB_INPUT_BUFFER_ATTRIBUTE  FAST_DATA_ZERO_INIT
+#elif defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
+#define BB_OUTPUT_BUFFER_ATTRIBUTE DMA_RAM
+#define BB_INPUT_BUFFER_ATTRIBUTE  DMA_RAM
 #endif
 #endif // USE_DSHOT_CACHE_MGMT
 
@@ -99,7 +103,8 @@ const timerHardware_t bbTimerHardware[] = {
     DEF_TIM(TIM1,  CH3, NONE,   0, 1),
     DEF_TIM(TIM1,  CH4, NONE,   0, 0),
 
-#elif defined(STM32G4) || defined(STM32H7)
+#elif defined(STM32G4) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     // XXX TODO: STM32G4 and STM32H7 can use any timer for pacing
 
     // DMA request numbers are duplicated for TIM1 and TIM8:
@@ -773,7 +778,8 @@ bool dshotBitbangDevInit(motorDevice_t *device, const motorDevConfig_t *motorCon
         bbMotors[motorIndex].output = output;
 #if defined(STM32F4)
         bbMotors[motorIndex].iocfg = IO_CONFIG(GPIO_Mode_OUT, GPIO_Speed_50MHz, GPIO_OType_PP, bbPuPdMode);
-#elif defined(STM32F7) || defined(STM32G4) || defined(STM32H7)
+#elif defined(STM32F7) || defined(STM32G4) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
         bbMotors[motorIndex].iocfg = IO_CONFIG(GPIO_MODE_OUTPUT_PP, GPIO_SPEED_FREQ_LOW, bbPuPdMode);
 #endif
 

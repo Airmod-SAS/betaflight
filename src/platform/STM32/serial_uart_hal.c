@@ -127,7 +127,8 @@ void uartReconfigure(uartPort_t *uartPort)
         if (uartPort->rxDMAResource)
         {
             uartPort->rxDMAHandle.Instance = (DMA_ARCH_TYPE *)uartPort->rxDMAResource;
-#if !(defined(STM32H7) || defined(STM32G4))
+#if !(defined(STM32H7) || defined(STM32G4)  || defined(STM32H5))
+/// @todo [Project-H5] suppose to be like H7
             uartPort->rxDMAHandle.Init.Channel = uartPort->rxDMAChannel;
 #else
             uartPort->txDMAHandle.Init.Request = uartPort->rxDMAChannel;

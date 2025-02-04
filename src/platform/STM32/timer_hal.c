@@ -183,7 +183,8 @@ TIM_TypeDef * const usedTimers[USED_TIMER_COUNT] = {
 #if USED_TIMERS & TIM_N(8)
     _DEF(8),
 #endif
-#if !(defined(STM32H7) || defined(STM32G4))
+#if !(defined(STM32H7) || defined(STM32G4) || defined(STM32H5))
+/// @todo [Project-H5] suppose to be like H7
 #if USED_TIMERS & TIM_N(9)
     _DEF(9),
 #endif
@@ -376,7 +377,8 @@ void configTimeBase(TIM_TypeDef *tim, uint16_t period, uint32_t hz)
 
     HAL_TIM_Base_Init(handle);
     if (tim == TIM1 || tim == TIM2 || tim == TIM3 || tim == TIM4 || tim == TIM5 || tim == TIM8
-#if !(defined(STM32H7) || defined(STM32G4))
+#if !(defined(STM32H7) || defined(STM32G4) || defined(STM32H5))
+/// @todo [Project-H5] suppose to be like H7
         || tim == TIM9
 #endif
       ) {
@@ -416,7 +418,8 @@ void timerConfigure(const timerHardware_t *timerHardwarePtr, uint16_t period, ui
     case TIM1_CC_IRQn:
 #if defined(STM32F7)
         timerNVICConfigure(TIM1_UP_TIM10_IRQn);
-#elif defined(STM32H7)
+#elif defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
         timerNVICConfigure(TIM1_UP_IRQn);
 #elif defined(STM32G4)
         timerNVICConfigure(TIM1_UP_TIM16_IRQn);
@@ -878,7 +881,8 @@ static inline void timUpdateHandler(TIM_TypeDef *tim, timerConfig_t *timerConfig
 
 #if USED_TIMERS & TIM_N(1)
 _TIM_IRQ_HANDLER(TIM1_CC_IRQHandler, 1);
-#  if defined(STM32H7)
+#  if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 _TIM_IRQ_HANDLER(TIM1_UP_IRQHandler, 1);
 #  elif defined(STM32G4)
 #    if USED_TIMERS & TIM_N(16)
@@ -909,13 +913,15 @@ _TIM_IRQ_HANDLER(TIM5_IRQHandler, 5);
 #endif
 
 #if USED_TIMERS & TIM_N(6)
-#  if !(defined(USE_PID_AUDIO) && (defined(STM32H7) || defined(STM32F7)))
+#  if !(defined(USE_PID_AUDIO) && (defined(STM32H7) || defined(STM32F7) || defined(STM32H5)))
+/// @todo [Project-H5] suppose to be like H7
 _TIM_IRQ_HANDLER_UPDATE_ONLY(TIM6_DAC_IRQHandler, 6);
 #  endif
 #endif
 #if USED_TIMERS & TIM_N(7)
 // The USB VCP_HAL driver conflicts with TIM7, see TIMx_IRQHandler in usbd_cdc_interface.h
-#  if !(defined(USE_VCP) && (defined(STM32F4) || defined(STM32G4) || defined(STM32H7) || defined(STM32F7)))
+#  if !(defined(USE_VCP) && (defined(STM32F4) || defined(STM32G4) || defined(STM32H7) || defined(STM32F7) || defined(STM32H5)))
+/// @todo [Project-H5] suppose to be like H7
 #    if defined(STM32G4)
 _TIM_IRQ_HANDLER_UPDATE_ONLY(TIM7_DAC_IRQHandler, 7);
 #    else
@@ -946,21 +952,25 @@ _TIM_IRQ_HANDLER(TIM1_TRG_COM_TIM11_IRQHandler, 11);
 #if USED_TIMERS & TIM_N(12)
 _TIM_IRQ_HANDLER(TIM8_BRK_TIM12_IRQHandler, 12);
 #endif
-#if defined(STM32H7) && (USED_TIMERS & TIM_N(14))
+#if (defined(STM32H7)|| defined(STM32H5)) && (USED_TIMERS & TIM_N(14))
+/// @todo [Project-H5] suppose to be like H7
 _TIM_IRQ_HANDLER(TIM8_TRG_COM_TIM14_IRQHandler, 14);
 #endif
 #if USED_TIMERS & TIM_N(15)
-#  if defined(STM32H7)
+#  if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 _TIM_IRQ_HANDLER(TIM15_IRQHandler, 15);
 #  else
 _TIM_IRQ_HANDLER(TIM1_BRK_TIM15_IRQHandler, 15);
 #  endif
 #endif
-#if defined(STM32H7) && (USED_TIMERS & TIM_N(16))
+#if (defined(STM32H7)|| defined(STM32H5)) && (USED_TIMERS & TIM_N(16))
+/// @todo [Project-H5] suppose to be like H7
 _TIM_IRQ_HANDLER(TIM16_IRQHandler, 16);
 #endif
 #if USED_TIMERS & TIM_N(17)
-#  if defined(STM32H7)
+#  if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 _TIM_IRQ_HANDLER(TIM17_IRQHandler, 17);
 #  else
 _TIM_IRQ_HANDLER(TIM1_TRG_COM_TIM17_IRQHandler, 17);
@@ -998,7 +1008,8 @@ void timerInit(void)
 #if USED_TIMERS & TIM_N(8)
     __HAL_RCC_TIM8_CLK_ENABLE();
 #endif
-#if !defined(STM32H7)
+#if !(defined(STM32H7) || defined(STM32H5))
+/// @todo [Project-H5] suppose to be like H7
 #if USED_TIMERS & TIM_N(9)
     __HAL_RCC_TIM9_CLK_ENABLE();
 #endif

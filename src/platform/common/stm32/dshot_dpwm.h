@@ -70,7 +70,8 @@ uint32_t getDshotHz(motorProtocolTypes_e pwmProtocolType);
 #define DSHOT_DMA_BUFFER_ATTRIBUTE /* Empty */
 #endif
 
-#if defined(STM32F4) || defined(STM32F7) || defined(STM32H7) || defined(STM32G4) || defined(AT32F435) || defined(APM32F4)
+#if defined(STM32F4) || defined(STM32F7) || defined(STM32H7) || defined(STM32G4) || defined(AT32F435) || defined(APM32F4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 #define DSHOT_DMA_BUFFER_UNIT uint32_t
 #else
 #define DSHOT_DMA_BUFFER_UNIT uint8_t
@@ -95,7 +96,8 @@ typedef struct {
 #if defined(USE_DSHOT)
     uint16_t outputPeriod;
 #if defined(USE_DSHOT_DMAR)
-#if defined(STM32F7) || defined(STM32H7) || defined(STM32G4)
+#if defined(STM32F7) || defined(STM32H7) || defined(STM32G4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     TIM_HandleTypeDef timHandle;
     DMA_HandleTypeDef hdma_tim;
 #endif
@@ -115,7 +117,8 @@ typedef struct motorDmaOutput_s {
     uint16_t timerDmaSource;
     uint8_t timerDmaIndex;
     bool configured;
-#if defined(STM32H7) || defined(STM32G4)
+#if defined(STM32H7) || defined(STM32G4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     TIM_HandleTypeDef TimHandle;
     DMA_HandleTypeDef hdma_tim;
     IO_t io;

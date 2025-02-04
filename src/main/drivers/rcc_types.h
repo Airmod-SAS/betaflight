@@ -20,7 +20,8 @@
 
 #pragma once
 
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 typedef uint16_t rccPeriphTag_t;
 #else
 typedef uint8_t rccPeriphTag_t;

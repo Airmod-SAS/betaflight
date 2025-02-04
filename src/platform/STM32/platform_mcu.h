@@ -210,7 +210,8 @@
 #define USE_LATE_TASK_STATISTICS
 #endif
 
-#if defined(STM32F4) || defined(STM32F7) || defined(STM32H7) || defined(STM32G4)
+#if defined(STM32F4) || defined(STM32F7) || defined(STM32H7) || defined(STM32G4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 #define TASK_GYROPID_DESIRED_PERIOD     125 // 125us = 8kHz
 #define SCHEDULER_DELAY_LIMIT           10
 #else
@@ -226,7 +227,8 @@
 #define DEFAULT_CPU_OVERCLOCK 0
 #endif
 
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 // Move ISRs to fast ram to avoid flash latency.
 #define FAST_IRQ_HANDLER FAST_CODE
 #else
@@ -251,13 +253,15 @@
 #define STATIC_DMA_DATA_AUTO        static DMA_DATA
 #endif
 
-#if defined(STM32F4) || defined(STM32H7)
+#if defined(STM32F4) || defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 // Data in RAM which is guaranteed to not be reset on hot reboot
 #define PERSISTENT                  __attribute__ ((section(".persistent_data"), aligned(4)))
 #endif
 
 #ifdef USE_DMA_RAM
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 #define DMA_RAM __attribute__((section(".DMA_RAM"), aligned(32)))
 #define DMA_RW_AXI __attribute__((section(".DMA_RW_AXI"), aligned(32)))
 extern uint8_t _dmaram_start__;
@@ -318,7 +322,8 @@ extern uint8_t _dmaram_end__;
 
 #endif
 
-#if defined(STM32F7) || defined(STM32H7) || defined(STM32G4)
+#if defined(STM32F7) || defined(STM32H7) || defined(STM32G4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 
 #define IO_CONFIG_GET_MODE(cfg)  (((cfg) >> 0) & 0x03)
 #define IO_CONFIG_GET_SPEED(cfg) (((cfg) >> 2) & 0x03)
@@ -363,12 +368,16 @@ extern uint8_t _dmaram_end__;
 #define SPIDEV_COUNT 4
 #elif defined(STM32H7)
 #define SPIDEV_COUNT 6
+#elif defined(STM32H5)
+/// @todo [Project-H5] to check in doc
+#define SPIDEV_COUNT 4
 #else
 #define SPIDEV_COUNT 4
 #endif
 
 // Work around different check routines in the libraries for different MCU types
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 #define CHECK_SPI_RX_DATA_AVAILABLE(instance) LL_SPI_IsActiveFlag_RXWNE(instance)
 #define SPI_RX_DATA_REGISTER(base) ((base)->RXDR)
 #else
@@ -376,7 +385,7 @@ extern uint8_t _dmaram_end__;
 #define SPI_RX_DATA_REGISTER(base) ((base)->DR)
 #endif
 
-#if defined(STM32F4) || defined(STM32G4) || defined(STM32H5)
+#if defined(STM32F4) || defined(STM32G4)
 #define MAX_SPI_PIN_SEL 2
 #elif defined(STM32F7)
 #define MAX_SPI_PIN_SEL 4
@@ -394,7 +403,8 @@ extern uint8_t _dmaram_end__;
 #define USE_TX_IRQ_HANDLER
 #endif
 
-#if defined(STM32H7)
+#if defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 #define UART_TX_BUFFER_ATTRIBUTE DMA_RAM /* D2 SRAM */
 #define UART_RX_BUFFER_ATTRIBUTE DMA_RAM /* D2 SRAM */
 #elif defined(STM32G4)

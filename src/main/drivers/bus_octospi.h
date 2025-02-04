@@ -35,7 +35,8 @@ typedef enum OCTOSPIDevice {
 #define OCTOSPI_CFG_TO_DEV(x)   ((x) - 1)
 #define OCTOSPI_DEV_TO_CFG(x)   ((x) + 1)
 
-#if !defined(STM32H7)
+#if !defined(STM32H7) && !defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 #error OctoSPI unsupported on this MCU
 #endif
 

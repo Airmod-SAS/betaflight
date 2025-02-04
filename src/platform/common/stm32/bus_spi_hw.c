@@ -178,6 +178,10 @@ uint16_t spiCalculateDivider(uint32_t freq)
     uint32_t spiClk = SystemCoreClock / 2;
 #elif defined(STM32H7)
     uint32_t spiClk = 100000000;
+#elif defined(STM32H5)
+/// @todo [Project-H5] source: https://www.st.com/resource/en/datasheet/stm32h562ag.pdf | version: DS14258 Rev 5 | pages 223
+// there is multiple values, based on the master reiceiver mode or transmiter mode
+    uint32_t spiClk = 100000000; // for now, I use H7 value
 #elif defined(STM32G4)
     uint32_t spiClk = SystemCoreClock;
 #elif defined(AT32F4)

@@ -111,7 +111,8 @@ bool ws2811LedStripHardwareInit(ioTag_t ioTag)
     __DMA2_CLK_ENABLE();
 
     /* Set the parameters to be configured */
-#if defined(STM32H7) || defined(STM32G4)
+#if defined(STM32H7) || defined(STM32G4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     hdma_tim.Init.Request = dmaChannel;
 #else
     hdma_tim.Init.Channel = dmaChannel;

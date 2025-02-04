@@ -69,7 +69,8 @@ typedef enum {
     ADC_CURRENT = 1,
     ADC_EXTERNAL1 = 2,
     ADC_RSSI = 3,
-#if defined(STM32H7) || defined(STM32G4)
+#if defined(STM32H7) || defined(STM32G4) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     // On H7 and G4, internal sensors are treated in the similar fashion as regular ADC inputs
     ADC_CHANNEL_INTERNAL_FIRST_ID = 4,
 
@@ -89,7 +90,8 @@ typedef enum {
 
 typedef struct adcOperatingConfig_s {
     ioTag_t tag;
-#if defined(STM32H7) || defined(STM32G4) || defined(AT32F435)
+#if defined(STM32H7) || defined(STM32G4) || defined(AT32F435) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
     ADCDevice adcDevice;        // ADCDEV_x for this input
     uint32_t adcChannel;        // Channel number for this input. Note that H7 and G4 HAL requires this to be 32-bit encoded number.
 #else

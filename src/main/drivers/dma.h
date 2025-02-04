@@ -44,7 +44,8 @@ typedef struct dmaResource_s dmaResource_t;
 
 #if defined(STM32F4) || defined(STM32F7)
 #define DMA_ARCH_TYPE DMA_Stream_TypeDef
-#elif defined(STM32H7)
+#elif defined(STM32H7) || defined(STM32H5)
+/// @todo [Project-H5] suppose to be like H7
 // H7 has stream based DMA and channel based BDMA, but we ignore BDMA (for now).
 #define DMA_ARCH_TYPE DMA_Stream_TypeDef
 #elif defined(AT32F435)
@@ -82,9 +83,10 @@ typedef struct dmaChannelDescriptor_s {
 
 #if defined(USE_ATBSP_DRIVER)
 
+#define TOTO 3
 #elif defined(APM32F4)
 // dma_apm32.h
-
+#define TOTO 2
 #elif defined(STM32F4) || defined(STM32F7) || defined(STM32H7)
 
 typedef enum {
@@ -145,9 +147,9 @@ typedef enum {
 void dmaMuxEnable(dmaIdentifier_e identifier, uint32_t dmaMuxId);
 
 #else
-
-#if defined(STM32G4)
-
+#define TOTO 1
+#if defined(STM32G4) || defined(STM32H5)
+/// @todo [Project-H5] try like G4
 typedef enum {
     DMA_NONE = 0,
     DMA1_CH1_HANDLER = 1,
@@ -260,6 +262,12 @@ typedef enum {
 #elif defined(APM32F4)
 #define IS_DMA_ENABLED(reg) (((DMA_ARCH_TYPE *)(reg))->SCFG & DMA_SCFGx_EN)
 #define REG_NDTR NDATA
+#elif defined(STM32H5)
+/// @todo [Project-H5] to define, currently try H750
+#define IS_DMA_ENABLED(reg) \
+    ((uint32_t)(reg) < D3_AHB1PERIPH_BASE) ? \
+        (((DMA_Stream_TypeDef *)(reg))->CR & DMA_SxCR_EN) : \
+        (((BDMA_Channel_TypeDef *)(reg))->CCR & BDMA_CCR_EN)
 #else
 #define IS_DMA_ENABLED(reg) (((DMA_ARCH_TYPE *)(reg))->CCR & DMA_CCR_EN)
 #define DMAx_SetMemoryAddress(reg, address) ((DMA_ARCH_TYPE *)(reg))->CMAR = (uint32_t)&s->port.txBuffer[s->port.txBufferTail]

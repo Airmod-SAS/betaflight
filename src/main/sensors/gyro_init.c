@@ -77,7 +77,7 @@
     !defined(USE_GYRO_SPI_MPU6500) && !defined(USE_GYRO_SPI_MPU9250) && !defined(USE_GYRO_L3GD20) && \
     !defined(USE_GYRO_SPI_ICM42605) && !defined(USE_GYRO_SPI_ICM42688P) && \
     !defined(USE_ACCGYRO_BMI160) && !defined(USE_ACCGYRO_BMI270) && \
-    !defined(USE_ACCGYRO_LSM6DSV16X) && !defined(USE_ACCGYRO_LSM6DSO) && !defined(USE_VIRTUAL_GYRO)
+    !defined(USE_ACCGYRO_LSM6DSV16X) && !defined(USE_ACCGYRO_LSM6DSO) && !defined(USE_ACCGYRO_LSM6DSK320X) && !defined(USE_VIRTUAL_GYRO)
 #error At least one USE_GYRO device definition required
 #endif
 
@@ -330,6 +330,7 @@ void gyroInitSensor(gyroSensor_t *gyroSensor, const gyroDeviceConfig_t *config)
     case GYRO_MPU9250:
     case GYRO_LSM6DSO:
     case GYRO_LSM6DSV16X:
+    case GYRO_LSM6DSK320X:
     case GYRO_ICM42688P:
     case GYRO_ICM42605:
         gyroSensor->gyroDev.gyroHasOverflowProtection = true;
@@ -513,6 +514,15 @@ STATIC_UNIT_TESTED gyroHardware_e gyroDetect(gyroDev_t *dev)
     case GYRO_LSM6DSV16X:
         if (lsm6dsv16xSpiGyroDetect(dev)) {
             gyroHardware = GYRO_LSM6DSV16X;
+            break;
+        }
+        FALLTHROUGH;
+#endif
+
+#ifdef USE_ACCGYRO_LSM6DSK320X
+    case GYRO_LSM6DSK320X:
+        if (lsm6dsk320xSpiGyroDetect(dev)) {
+            gyroHardware = GYRO_LSM6DSK320X;
             break;
         }
         FALLTHROUGH;

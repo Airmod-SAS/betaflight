@@ -93,7 +93,7 @@
     !defined(USE_ACCGYRO_BMI270) && !defined(USE_ACC_SPI_ICM42605) && !defined(USE_ACC_SPI_ICM42688P) && \
     !defined(USE_ACC_ADXL345) && !defined(USE_ACC_BMA280) && !defined(USE_ACC_LSM303DLHC) && \
     !defined(USE_ACC_MMA8452) && !defined(USE_ACC_LSM303DLHC) && !defined(USE_ACCGYRO_LSM6DSV16X) && \
-	!defined(USE_VIRTUAL_ACC)
+    !defined(USE_ACCGYRO_LSM6DSK320X) && !defined(USE_VIRTUAL_ACC)
 #error At least one USE_ACC device definition required
 #endif
 
@@ -334,6 +334,15 @@ retry:
     case ACC_LSM6DSV16X:
         if (lsm6dsv16xSpiAccDetect(dev)) {
             accHardware = ACC_LSM6DSV16X;
+            break;
+        }
+        FALLTHROUGH;
+#endif
+
+#ifdef USE_ACCGYRO_LSM6DSK320X
+    case ACC_LSM6DSK320X:
+        if (lsm6dsk320xSpiAccDetect(dev)) {
+            accHardware = ACC_LSM6DSK320X;
             break;
         }
         FALLTHROUGH;

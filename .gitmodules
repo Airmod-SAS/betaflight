@@ -54,4 +54,3 @@
 [submodule "src/config"]
 	path = src/config
 	url = https://github.com/Airmod-SAS/betaflight-config
-	branch = add-airdronef405

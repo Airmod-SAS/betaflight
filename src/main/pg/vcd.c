@@ -27,18 +27,12 @@
 
 #include "vcd.h"
 
-#ifndef DEFAULT_VIDEO_SYSTEM
-#ifdef USE_OSD_HD
-#define DEFAULT_VIDEO_SYSTEM VIDEO_SYSTEM_HD
-#else
-#define DEFAULT_VIDEO_SYSTEM VIDEO_SYSTEM_AUTO
-#endif
-#endif
-
 // no template required since defaults are zero
 PG_REGISTER_WITH_RESET_FN(vcdProfile_t, vcdProfile, PG_VCD_CONFIG, 0);
 
 void pgResetFn_vcdProfile(vcdProfile_t *vcdProfile)
 {
-    vcdProfile->video_system = DEFAULT_VIDEO_SYSTEM;
+    // Force VIDEO_SYSTEM_AUTO as default.
+    // HD support remains compiled and can be manually selected in the Configurator.
+    vcdProfile->video_system = VIDEO_SYSTEM_AUTO;
 }

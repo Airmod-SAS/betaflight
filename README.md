@@ -28,13 +28,19 @@ sudo apt -y install build-essential git curl clang python3 python-is-python3
 
 ### 2. Clone the Repository (Recursive)
 
-You MUST use the --recursive flag to include target configurations stored in submodules.
+You must use the --recursive flag to include target configurations stored in submodules.
 
 **Create or go to your working directory**
 
 ```bash
 git clone --recursive https://github.com/Airmod-SAS/betaflight.git
 cd betaflight
+```
+
+**Note:** If the repository is already cloned and your `src/config` folder is empty, run this command to fetch the latest Airmod targets:
+
+```bash
+git submodule update --init --recursive
 ```
 
 ### 3. Install the ARM Toolchain

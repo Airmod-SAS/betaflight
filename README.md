@@ -64,7 +64,7 @@ Once the compilation is finished, you can find the binary file here:
 `obj/betaflight_X.X.X_AIRDRONEF405.hex`
 
 ### How to Flash:
-1. Open **Betaflight Configurator**
+1. Open **Betaflight Configurator** https://app.betaflight.com/
 2. Connect your Flight Controller to your computer.
 3. In the **Update Firmware** tab, click on **Load Firmware [Local]**.
 4. Select the `.hex` file located in the `obj/` folder.

@@ -67,7 +67,7 @@ make AIRDRONEF405
 ## ⚡ Flashing the Firmware
 
 Once the compilation is finished, you can find the binary file here:
-`obj/betaflight_2026.6.0-alpha_AIRDRONEF405.hex`
+`obj/betaflight_2026.6.0-rc1_STM32F405_AIRDRONEF405.hex`
 
 ### How to Flash:
 1. Open **Betaflight Configurator**  https://app.betaflight.com/

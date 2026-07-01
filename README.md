@@ -9,7 +9,7 @@
 </p>
 
 
-# Betaflight - v4.5.3 AIRMOD Custom Version
+# Betaflight - v2026.6 AIRMOD Custom Version
 
 This is the official stable firmware fork for AIRMOD.
 **Follow these steps carefully to set up your environment.**
@@ -35,7 +35,7 @@ Clone the stable Airmod branch:
 **Create or go to your working directory**
 
 ```bash
-git clone --recursive -b v4.5.3-airmod-custom https://github.com/Airmod-SAS/betaflight.git
+git clone --recursive -b v2026.6-airmod-custom https://github.com/Airmod-SAS/betaflight.git
 cd betaflight
 ```
 
@@ -43,7 +43,7 @@ cd betaflight
 
 ```bash
 # Switch to the stable branch
-git checkout v4.5.3-airmod-custom
+git checkout v2026.6-airmod-custom
 
 # Sync and update submodules (src/config)
 git submodule update --init --recursive
@@ -67,7 +67,7 @@ make AIRDRONEF405
 ## ⚡ Flashing the Firmware
 
 Once the compilation is finished, you can find the binary file here:
-`obj/betaflight_X.X.X_AIRDRONEF405.hex`
+`obj/betaflight_2026.6.0-alpha_AIRDRONEF405.hex`
 
 ### How to Flash:
 1. Open **Betaflight Configurator**  https://app.betaflight.com/

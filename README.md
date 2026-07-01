@@ -1,3 +1,91 @@
+<p align="center">
+  <img src="https://www.airmod.tech/assets/images/logo_dark.png" alt="AIRMOD Logo" width="300">
+</p>
+
+<h1 align="center">Betaflight - AirDrone Edition</h1>
+
+<p align="center">
+  <i>Official custom firmware fork for AIRMOD </i>
+</p>
+
+
+# Betaflight - v4.5.3 AIRMOD Custom Version
+
+This is the official stable firmware fork for AIRMOD.
+**Follow these steps carefully to set up your environment.**
+
+
+## 💻 Environment Setup
+*Current documentation is optimized for **Ubuntu** environments.*
+
+### 1. Install System Dependencies
+This step only needs to be performed once. It installs the basic tools and the required Clang compiler:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt -y install build-essential git curl clang python3 python-is-python3
+```
+
+### 2. Clone the Repository (Recursive)
+
+To ensure you are working on the stable production version, you must clone the specific Airmod branch and use the --recursive flag to include target configurations.
+
+Clone the stable Airmod branch:
+
+**Create or go to your working directory**
+
+```bash
+git clone --recursive -b v4.5.3-airmod-custom https://github.com/Airmod-SAS/betaflight.git
+cd betaflight
+```
+
+**Note:** If you have already cloned the repository or need to switch to this branch and fix empty submodules, run:
+
+```bash
+# Switch to the stable branch
+git checkout v4.5.3-airmod-custom
+
+# Sync and update submodules (src/config)
+git submodule update --init --recursive
+```
+
+### 3. Install the ARM Toolchain
+
+Betaflight requires a specific ARM GCC compiler. Run this command to install the correct version automatically:
+
+```
+make arm_sdk_install
+```
+
+🏗 Building the Firmware
+
+Once your environment is ready, you can compile the firmware for the target:
+```
+make AIRDRONEF405
+```
+
+## ⚡ Flashing the Firmware
+
+Once the compilation is finished, you can find the binary file here:
+`obj/betaflight_X.X.X_AIRDRONEF405.hex`
+
+### How to Flash:
+1. Open **Betaflight Configurator**  https://app.betaflight.com/
+2. Connect your Flight Controller to your computer.
+3. In the **Update Firmware** tab, click on **Load Firmware [Local]**.
+4. Select the `.hex` file located in the `obj/` folder.
+5. Click **Flash Firmware**.
+
+<br>
+⚙️ Key Changes
+
+**Video System:**  Defaulted to VIDEO_SYSTEM_AUTO
+
+HD support remains compiled and can be manually selected in the Configurator.
+
+<br>
+<br>
+
 ![Betaflight](https://raw.githubusercontent.com/betaflight/.github/main/profile/images/bf_logo.svg#gh-light-mode-only)
 ![Betaflight](https://raw.githubusercontent.com/betaflight/.github/main/profile/images/bf_logo_dark.svg#gh-dark-mode-only)
 

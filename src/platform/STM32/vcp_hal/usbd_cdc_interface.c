@@ -128,7 +128,7 @@ USBD_CDC_ItfTypeDef USBD_CDC_fops =
 #endif
 };
 
-#if defined(STM32C5)
+#if defined(STM32C5) || defined(STM32H5)
 static void CDC_TIM_PeriodElapsedHandler(void);
 
 void TIMx_IRQHandler(void)
@@ -159,7 +159,7 @@ static int8_t CDC_Itf_Init(void)
   TIM_Config();
 
   /*##-4- Start the TIM Base generation in interrupt mode ####################*/
-#if defined(STM32C5)
+#if defined(STM32C5) || defined(STM32H5)
   LL_TIM_ClearFlag_UPDATE(TIMusb);
   LL_TIM_EnableIT_UPDATE(TIMusb);
   LL_TIM_EnableCounter(TIMusb);
@@ -277,7 +277,7 @@ static int8_t CDC_Itf_Control (uint8_t cmd, uint8_t* pbuf, uint16_t length)
   * @param  htim: TIM handle
   * @retval None
   */
-#if defined(STM32C5)
+#if defined(STM32C5) || defined(STM32H5)
 static void CDC_TIM_PeriodElapsedHandler(void)
 {
     uint32_t buffsize;
@@ -369,13 +369,18 @@ static int8_t CDC_Itf_TransmitCplt(uint8_t *Buf, uint32_t *Len, uint8_t epnum)
   */
 static void TIM_Config(void)
 {
-#if defined(STM32C5)
+#if defined(STM32C5) || defined(STM32H5)
   /* Enable TIM peripheral clock first (HAL2 uses function-style RCC API) */
   TIMx_CLK_ENABLE();
 
   /* Configure TIM7 via LL: simple periodic interrupt for CDC TX polling */
   TimHandle.Instance = TIMusb;
+#if defined(STM32H5)
+  /* H5 with APB divider=1: timer clock = SystemCoreClock (no /2) */
+  LL_TIM_SetPrescaler(TIMusb, (SystemCoreClock / 1000000) - 1);
+#else
   LL_TIM_SetPrescaler(TIMusb, (SystemCoreClock / 2 / 1000000) - 1);
+#endif
   LL_TIM_SetAutoReload(TIMusb, (CDC_POLLING_INTERVAL * 1000) - 1);
   LL_TIM_SetCounterMode(TIMusb, LL_TIM_COUNTERMODE_UP);
   LL_TIM_GenerateEvent_UPDATE(TIMusb);

@@ -118,6 +118,14 @@
 #include "stm32h5xx_ll_system.h"
 #include "stm32h5xx_ll_ex.h"
 
+// STM32H5 (Cortex-M33) has no data cache like Cortex-M7
+#define SCB_EnableICache()      ((void)0)
+#define SCB_DisableICache()     ((void)0)
+#define SCB_EnableDCache()      ((void)0)
+#define SCB_DisableDCache()     ((void)0)
+#define SCB_InvalidateDCache_by_Addr(addr, size)  ((void)0)
+#define SCB_CleanDCache_by_Addr(addr, size)       ((void)0)
+
 // Chip Unique ID on H5
 #define U_ID_0 (*(uint32_t*)UID_BASE)
 #define U_ID_1 (*(uint32_t*)(UID_BASE + 4))

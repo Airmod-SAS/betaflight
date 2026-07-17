@@ -48,7 +48,7 @@
 
 #undef USE_TRANSPONDER
 //#undef USE_SDCARD
-#undef USE_LED_STRIP
+//#undef USE_LED_STRIP
 //#undef USE_SOFTSERIAL
 //#undef USE_VCP
 //#undef USE_ESCSERIAL
@@ -79,8 +79,6 @@
 //#undef USE_MOTOR
 //#undef USE_SERVO
 
-#define USE_VIRTUAL_GYRO
-
 #define USE_I2C_DEVICE_1
 #define USE_I2C_DEVICE_2
 #define USE_I2C_DEVICE_3
@@ -93,11 +91,11 @@
 #define UNIFIED_SERIAL_PORT_COUNT       1
 
 #define USE_UART1
-//#define USE_UART2
-//#define USE_UART3
-//#define USE_UART4
-//#define USE_UART5
-//#define USE_UART6
+#define USE_UART2
+#define USE_UART3
+#define USE_UART4
+#define USE_UART5
+#define USE_UART6
 //#define USE_UART7
 //#define USE_UART8
 
@@ -119,7 +117,7 @@
 #define USE_I2C
 #define I2C_FULL_RECONFIGURABILITY
 
-//#define USE_BEEPER
+#define USE_BEEPER
 
 #if !defined(ENABLE_SDIO_INIT)
 #define ENABLE_SDIO_INIT 1

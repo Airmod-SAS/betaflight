@@ -35,7 +35,7 @@
 
 #include "drivers/system.h"
 
-#if defined(STM32F4) || defined(STM32F7) || defined(STM32H7) || defined(AT32F4) || defined(APM32F4) || defined(X32M7) 
+#if defined(STM32F4) || defined(STM32F7) || defined(STM32H7) || defined(STM32H5) || defined(AT32F4) || defined(APM32F4) || defined(X32M7)
 // See "RM CoreSight Architecture Specification"
 // B2.3.10  "LSR and LAR, Software Lock Status Register and Software Lock Access Register"
 // "E1.2.11  LAR, Lock Access Register"
@@ -78,10 +78,14 @@ void cycleCounterInit(void)
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 
 #if defined(DWT_LAR_UNLOCK_VALUE)
-#if defined(STM32H7) || defined(AT32F4) || defined(X32M7) 
+#if defined(STM32H7) || defined(AT32F4) || defined(X32M7)
     ITM->LAR = DWT_LAR_UNLOCK_VALUE;
 #elif defined(STM32F7)
     DWT->LAR = DWT_LAR_UNLOCK_VALUE;
+#elif defined(STM32H5)
+    // Cortex-M33 DWT LAR unlock - access via memory-mapped address
+    __O uint32_t *DWTLAR = (uint32_t *)(DWT_BASE + 0x0FB0);
+    *(DWTLAR) = DWT_LAR_UNLOCK_VALUE;
 #elif defined(STM32F4) || defined(APM32F4)
     // Note: DWT_Type does not contain LAR member.
 #define DWT_LAR

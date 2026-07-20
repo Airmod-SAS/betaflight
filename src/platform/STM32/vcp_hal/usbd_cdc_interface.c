@@ -375,12 +375,7 @@ static void TIM_Config(void)
 
   /* Configure TIM7 via LL: simple periodic interrupt for CDC TX polling */
   TimHandle.Instance = TIMusb;
-#if defined(STM32H5)
-  /* H5 with APB divider=1: timer clock = SystemCoreClock (no /2) */
-  LL_TIM_SetPrescaler(TIMusb, (SystemCoreClock / 1000000) - 1);
-#else
   LL_TIM_SetPrescaler(TIMusb, (SystemCoreClock / 2 / 1000000) - 1);
-#endif
   LL_TIM_SetAutoReload(TIMusb, (CDC_POLLING_INTERVAL * 1000) - 1);
   LL_TIM_SetCounterMode(TIMusb, LL_TIM_COUNTERMODE_UP);
   LL_TIM_GenerateEvent_UPDATE(TIMusb);

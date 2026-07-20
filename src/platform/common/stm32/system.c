@@ -82,10 +82,6 @@ void cycleCounterInit(void)
     ITM->LAR = DWT_LAR_UNLOCK_VALUE;
 #elif defined(STM32F7)
     DWT->LAR = DWT_LAR_UNLOCK_VALUE;
-#elif defined(STM32H5)
-    // Cortex-M33 DWT LAR unlock - access via memory-mapped address
-    __O uint32_t *DWTLAR = (uint32_t *)(DWT_BASE + 0x0FB0);
-    *(DWTLAR) = DWT_LAR_UNLOCK_VALUE;
 #elif defined(STM32F4) || defined(APM32F4)
     // Note: DWT_Type does not contain LAR member.
 #define DWT_LAR

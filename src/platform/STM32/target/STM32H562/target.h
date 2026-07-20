@@ -48,7 +48,7 @@
 
 #undef USE_TRANSPONDER
 //#undef USE_SDCARD
-//#undef USE_LED_STRIP
+#undef USE_LED_STRIP
 //#undef USE_SOFTSERIAL
 //#undef USE_VCP
 //#undef USE_ESCSERIAL
@@ -91,11 +91,11 @@
 #define UNIFIED_SERIAL_PORT_COUNT       1
 
 #define USE_UART1
-#define USE_UART2
-#define USE_UART3
-#define USE_UART4
-#define USE_UART5
-#define USE_UART6
+//#define USE_UART2
+//#define USE_UART3
+//#define USE_UART4
+//#define USE_UART5
+//#define USE_UART6
 //#define USE_UART7
 //#define USE_UART8
 

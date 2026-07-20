@@ -257,22 +257,13 @@ void spiInternalResetDescriptors(busDevice_t *bus)
 
 void spiInternalResetStream(dmaChannelDescriptor_t *descriptor)
 {
-    uint32_t timeout = 100000;
     // Disable the stream
 #if defined(STM32G4) || defined(STM32H5) || defined(STM32N6)
     LL_DMA_DisableChannel(descriptor->dma, descriptor->stream);
-    while (LL_DMA_IsEnabledChannel(descriptor->dma, descriptor->stream)) {
-        if (--timeout == 0) {
-            break;
-        }
-    }
+    while (LL_DMA_IsEnabledChannel(descriptor->dma, descriptor->stream));
 #else
     LL_DMA_DisableStream(descriptor->dma, descriptor->stream);
-    while (LL_DMA_IsEnabledStream(descriptor->dma, descriptor->stream)) {
-        if (--timeout == 0) {
-            break;
-        }
-    }
+    while (LL_DMA_IsEnabledStream(descriptor->dma, descriptor->stream));
 #endif
 
     // Clear any pending interrupt flags
@@ -283,45 +274,24 @@ FAST_CODE bool spiInternalReadWriteBufPolled(spiResource_t *spiInstance, const u
 {
     SPI_TypeDef *instance = (SPI_TypeDef *)spiInstance;
 #if defined(STM32H7) || defined(STM32H5) || defined(STM32N6)
-#define SPI_TIMEOUT_LOOPS 100000
-    uint32_t timeout;
     LL_SPI_SetTransferSize(instance, len);
     LL_SPI_Enable(instance);
     LL_SPI_StartMasterTransfer(instance);
     while (len) {
-        timeout = SPI_TIMEOUT_LOOPS;
-        while (!LL_SPI_IsActiveFlag_TXP(instance)) {
-            if (--timeout == 0) {
-                LL_SPI_Disable(instance);
-                return false;
-            }
-        }
+        while (!LL_SPI_IsActiveFlag_TXP(instance));
         uint8_t b = txData ? *(txData++) : 0xFF;
         LL_SPI_TransmitData8(instance, b);
 
-        timeout = SPI_TIMEOUT_LOOPS;
-        while (!LL_SPI_IsActiveFlag_RXP(instance)) {
-            if (--timeout == 0) {
-                LL_SPI_Disable(instance);
-                return false;
-            }
-        }
+        while (!LL_SPI_IsActiveFlag_RXP(instance));
         b = LL_SPI_ReceiveData8(instance);
         if (rxData) {
             *(rxData++) = b;
         }
         --len;
     }
-    timeout = SPI_TIMEOUT_LOOPS;
-    while (!LL_SPI_IsActiveFlag_EOT(instance)) {
-        if (--timeout == 0) {
-            LL_SPI_Disable(instance);
-            return false;
-        }
-    }
+    while (!LL_SPI_IsActiveFlag_EOT(instance));
     LL_SPI_ClearFlag_TXTF(instance);
     LL_SPI_Disable(instance);
-#undef SPI_TIMEOUT_LOOPS
 #else
     // set 16-bit transfer
     CLEAR_BIT(instance->CR2, SPI_RXFIFO_THRESHOLD);

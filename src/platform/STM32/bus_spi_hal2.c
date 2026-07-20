@@ -239,42 +239,23 @@ void spiInternalResetStream(dmaChannelDescriptor_t *descriptor)
 FAST_CODE bool spiInternalReadWriteBufPolled(spiResource_t *spiInstance, const uint8_t *txData, uint8_t *rxData, int len)
 {
     SPI_TypeDef *instance = (SPI_TypeDef *)spiInstance;
-    uint32_t timeout;
 
     LL_SPI_SetTransferSize(instance, len);
     LL_SPI_Enable(instance);
     LL_SPI_StartMasterTransfer(instance);
     while (len) {
-        timeout = 100000;
-        while (!LL_SPI_IsActiveFlag_TXP(instance)) {
-            if (--timeout == 0) {
-                LL_SPI_Disable(instance);
-                return false;
-            }
-        }
+        while (!LL_SPI_IsActiveFlag_TXP(instance));
         uint8_t b = txData ? *(txData++) : 0xFF;
         LL_SPI_TransmitData8(instance, b);
 
-        timeout = 100000;
-        while (!LL_SPI_IsActiveFlag_RXP(instance)) {
-            if (--timeout == 0) {
-                LL_SPI_Disable(instance);
-                return false;
-            }
-        }
+        while (!LL_SPI_IsActiveFlag_RXP(instance));
         b = LL_SPI_ReceiveData8(instance);
         if (rxData) {
             *(rxData++) = b;
         }
         --len;
     }
-    timeout = 100000;
-    while (!LL_SPI_IsActiveFlag_EOT(instance)) {
-        if (--timeout == 0) {
-            LL_SPI_Disable(instance);
-            return false;
-        }
-    }
+    while (!LL_SPI_IsActiveFlag_EOT(instance));
     LL_SPI_ClearFlag_TXTF(instance);
     LL_SPI_Disable(instance);
 

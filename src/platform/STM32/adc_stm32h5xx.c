@@ -412,7 +412,7 @@ void adcInit(const adcConfig_t *config)
         // (e.g. ADC2 for internal VBAT when only ADC1_DMA_OPT is set). Bail out
         // before dereferencing it — otherwise dmaSpec->ref faults at address 4.
         if (!dmaSpec) {
-            return;
+            continue;
         }
 
         dmaIdentifier_e dmaIdentifier = dmaGetIdentifier(dmaSpec->ref);
